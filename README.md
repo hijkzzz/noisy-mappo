@@ -34,15 +34,22 @@ pip install -e .
 
 Even though we provide requirement.txt, it may have redundancy. We recommend that the user try to install other required packages by running the code and finding which required package hasn't installed yet.
 
-### 2.1 Install StarCraftII [4.10](http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip)
+### 2.1 Install StarCraftII [4.10](https://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip)
 
 ``` Bash
-unzip SC2.4.10.zip
-# password is iagreetotheeula
+cd ~
+wget https://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip
+unzip -P iagreetotheeula SC2.4.10.zip
+rm -rf SC2.4.10.zip
 echo "export SC2PATH=~/StarCraftII/" > ~/.bashrc
 ```
 
 * download [SMAC Maps](https://github.com/oxwhirl/smac/releases/download/v1/SMAC_Maps_V1.tar.gz), and move it to `~/StarCraftII/Maps/`.
+```
+wget https://github.com/oxwhirl/smac/releases/download/v0.1-beta1/SMAC_Maps.zip
+unzip SMAC_Maps.zip
+mv ./SMAC_Maps ~/StarCraftII/Maps/
+```
 
 * To use a stableid, copy `stableid.json` from https://github.com/Blizzard/s2client-proto.git to `~/StarCraftII/`.
 
