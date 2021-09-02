@@ -78,7 +78,7 @@ Local results are stored in subfold scripts/results. Note that we use Tensorboar
 ## Citation
 ```
 @article{hu2021policy,
-      title={olicy Perturbation via Noisy Advantage Values for Cooperative Multi-agent Actor-Critic methods}, 
+      title={Policy Perturbation via Noisy Advantage Values for Cooperative Multi-agent Actor-Critic methods}, 
       author={Jian Hu and Siyue Hu and Shih-wei Liao},
       year={2021},
       eprint={2106.14334},
