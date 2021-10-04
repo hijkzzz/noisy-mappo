@@ -1,5 +1,5 @@
 # Noisy-MAPPO
-Codes for [Policy Perturbation via Noisy Advantage Values for Cooperative Multi-agent Actor-Critic methods](https://arxiv.org/abs/2106.14334). This repository is heavily based on https://github.com/marlbenchmark/on-policy. In this study we find that noise perturbation of the Value function can effectively improve the performance of MAPPO in SMAC.
+Codes for [Policy Perturbation via Noisy Advantage Values for Cooperative Multi-agent Actor-Critic methods](https://arxiv.org/abs/2106.14334). This repository is heavily based on https://github.com/marlbenchmark/on-policy. In this study we find that noise perturbation of the Advantage function can effectively improve the performance of MAPPO in SMAC.
 
 ## Environments supported:
 
