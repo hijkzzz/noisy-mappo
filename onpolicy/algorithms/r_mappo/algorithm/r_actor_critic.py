@@ -118,7 +118,7 @@ class R_Critic(nn.Module):
     def __init__(self, args, cent_obs_space, device=torch.device("cpu")):
         super(R_Critic, self).__init__()
         self.args = args
-        self.hidden_size = args.hidden_size
+        self.hidden_size = args.hidden_size * 2
         self._use_orthogonal = args.use_orthogonal
         self._use_naive_recurrent_policy = args.use_naive_recurrent_policy
         self._use_recurrent_policy = args.use_recurrent_policy
@@ -131,20 +131,20 @@ class R_Critic(nn.Module):
         base = CNNBase if len(cent_obs_shape) == 3 else MLPBase
 
         if args.use_value_noise:
-            self.base = base(args, (cent_obs_shape[0] + args.noise_dim,))
+            self.base = base(args, (cent_obs_shape[0] + args.noise_dim,), hidden_size=self.hidden_size)
         else:
-            self.base = base(args, cent_obs_shape)
+            self.base = base(args, cent_obs_shape, hidden_size=self.hidden_size)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(self.hidden_size, self.hidden_size, self._recurrent_N, self._use_orthogonal)
 
         def init_(m):
-            return init(m, init_method, lambda x: nn.init.constant_(x, 0))
+            return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=1)
 
         if self._use_popart:
-            self.v_out = init_(PopArt(self.hidden_size, 1, device=device))
+            self.v_out = init_(PopArt(self.hidden_size, self.args.num_agents, device=device))
         else:
-            self.v_out = init_(nn.Linear(self.hidden_size, 1))
+            self.v_out = init_(nn.Linear(self.hidden_size, self.args.num_agents))
 
         self.to(device)
 
@@ -171,6 +171,6 @@ class R_Critic(nn.Module):
         critic_features = self.base(cent_obs)
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             critic_features, rnn_states = self.rnn(critic_features, rnn_states, masks)
-        values = self.v_out(critic_features)
+        values = self.v_out(critic_features).view(-1, self.args.num_agents, self.args.num_agents)[:,0].reshape(-1, 1)
 
         return values, rnn_states

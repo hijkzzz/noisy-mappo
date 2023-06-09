@@ -29,7 +29,7 @@ class MLPLayer(nn.Module):
 
 
 class MLPBase(nn.Module):
-    def __init__(self, args, obs_shape, cat_self=True, attn_internal=False):
+    def __init__(self, args, obs_shape, cat_self=True, attn_internal=False, hidden_size=None):
         super(MLPBase, self).__init__()
 
         self._use_feature_normalization = args.use_feature_normalization
@@ -37,7 +37,10 @@ class MLPBase(nn.Module):
         self._use_ReLU = args.use_ReLU
         self._stacked_frames = args.stacked_frames
         self._layer_N = args.layer_N
-        self.hidden_size = args.hidden_size
+        if hidden_size:
+            self.hidden_size = hidden_size
+        else:
+            self.hidden_size = args.hidden_size
 
         obs_dim = obs_shape[0]
 

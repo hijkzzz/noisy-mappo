@@ -54,7 +54,9 @@ class SharedReplayBuffer(object):
         self.rnn_states = np.zeros(
             (self.episode_length + 1, self.n_rollout_threads, num_agents, self.recurrent_N, self.hidden_size),
             dtype=np.float32)
-        self.rnn_states_critic = np.zeros_like(self.rnn_states)
+        self.rnn_states_critic = np.zeros(
+            (self.episode_length + 1, self.n_rollout_threads, num_agents, self.recurrent_N, self.hidden_size * 2),
+            dtype=np.float32)
 
         self.value_preds = np.zeros(
             (self.episode_length + 1, self.n_rollout_threads, num_agents, 1), dtype=np.float32)
